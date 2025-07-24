@@ -1,0 +1,28 @@
+
+body {
+  font-family: sans-serif;
+  text-align: center;
+  background: #fff8f0;
+  margin: 0;
+  padding: 0 10px;
+}
+h1 {
+  color: #d94f70;
+  margin-top: 20px;
+}
+.timer {
+  font-size: 2em;
+  margin: 20px 0;
+}
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+.gallery img {
+  width: 200px;
+  margin: 10px;
+  border-radius: 10px;
+  object-fit: cover;
+}
