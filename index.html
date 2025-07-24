@@ -2,15 +2,138 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Our Wedding</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>❤️ Our Magical Wedding Journey ❤️</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-  <h1>Welcome to Our Wedding Website</h1>
-  <p>Join us on <strong>13th August 2025</strong></p>
-  <div class="timer" id="countdown"></div>
+  <!-- Floating Hearts Animation -->
+  <div class="floating-hearts">
+    <span class="heart">💕</span>
+    <span class="heart">💖</span>
+    <span class="heart">💗</span>
+    <span class="heart">💝</span>
+    <span class="heart">💘</span>
+  </div>
 
-  <h2>PreWedding</h2><div class='gallery' id='PreWedding-gallery'></div><h2>Engagement</h2><div class='gallery' id='Engagement-gallery'></div><h2>Haldi</h2><div class='gallery' id='Haldi-gallery'></div><h2>Wedding</h2><div class='gallery' id='Wedding-gallery'></div><h2>Reception</h2><div class='gallery' id='Reception-gallery'></div>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="title-container">
+        <h1 class="main-title">
+          <span class="title-line">Our</span>
+          <span class="title-line magical">Magical</span>
+          <span class="title-line">Wedding</span>
+        </h1>
+        <div class="title-decoration">
+          <span class="flower">🌸</span>
+          <span class="rings">💍</span>
+          <span class="flower">🌸</span>
+        </div>
+      </div>
+      <p class="wedding-date">
+        <i class="fas fa-calendar-heart"></i>
+        Join us on <strong>13th August 2025</strong>
+      </p>
+      <div class="timer-container">
+        <h3>Countdown to Forever</h3>
+        <div class="timer" id="countdown"></div>
+      </div>
+    </div>
+    <div class="hero-decoration">
+      <div class="rose rose-1">🌹</div>
+      <div class="rose rose-2">🌹</div>
+      <div class="rose rose-3">🌹</div>
+    </div>
+  </section>
+
+  <!-- Navigation -->
+  <nav class="gallery-nav">
+    <a href="#prewedding" class="nav-item active" data-event="PreWedding">
+      <i class="fas fa-camera"></i>
+      <span>Pre-Wedding</span>
+    </a>
+    <a href="#engagement" class="nav-item" data-event="Engagement">
+      <i class="fas fa-ring"></i>
+      <span>Engagement</span>
+    </a>
+    <a href="#haldi" class="nav-item" data-event="Haldi">
+      <i class="fas fa-sun"></i>
+      <span>Haldi</span>
+    </a>
+    <a href="#wedding" class="nav-item" data-event="Wedding">
+      <i class="fas fa-heart"></i>
+      <span>Wedding</span>
+    </a>
+    <a href="#reception" class="nav-item" data-event="Reception">
+      <i class="fas fa-glass-cheers"></i>
+      <span>Reception</span>
+    </a>
+  </nav>
+
+  <!-- Gallery Sections -->
+  <div class="gallery-container">
+    <section class="event-section" id="prewedding">
+      <div class="section-header">
+        <h2><i class="fas fa-camera"></i> Pre-Wedding Moments</h2>
+        <p>Where our love story began to unfold</p>
+      </div>
+      <div class='gallery' id='PreWedding-gallery'></div>
+    </section>
+
+    <section class="event-section" id="engagement">
+      <div class="section-header">
+        <h2><i class="fas fa-ring"></i> Our Engagement</h2>
+        <p>The moment we said "Yes" to forever</p>
+      </div>
+      <div class='gallery' id='Engagement-gallery'></div>
+    </section>
+
+    <section class="event-section" id="haldi">
+      <div class="section-header">
+        <h2><i class="fas fa-sun"></i> Haldi Ceremony</h2>
+        <p>Golden moments filled with love and laughter</p>
+      </div>
+      <div class='gallery' id='Haldi-gallery'></div>
+    </section>
+
+    <section class="event-section" id="wedding">
+      <div class="section-header">
+        <h2><i class="fas fa-heart"></i> Our Wedding Day</h2>
+        <p>The most beautiful day of our lives</p>
+      </div>
+      <div class='gallery' id='Wedding-gallery'></div>
+    </section>
+
+    <section class="event-section" id="reception">
+      <div class="section-header">
+        <h2><i class="fas fa-glass-cheers"></i> Reception Celebration</h2>
+        <p>Dancing the night away with loved ones</p>
+      </div>
+      <div class='gallery' id='Reception-gallery'></div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <p>Made with 💖 for our special day</p>
+      <div class="footer-decoration">
+        <span>🌹</span>
+        <span>💐</span>
+        <span>🌹</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Photo Modal -->
+  <div class="modal" id="photoModal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImage">
+    <div class="modal-caption" id="modalCaption"></div>
+  </div>
 
   <script src="script.js"></script>
 </body>
