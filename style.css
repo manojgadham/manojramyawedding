@@ -380,6 +380,29 @@ body {
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
 }
 
+.event-date {
+  margin-top: 15px;
+  padding: 12px 20px;
+  background: var(--gradient-gold);
+  border-radius: 25px;
+  display: inline-block;
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.event-date i {
+  margin-right: 8px;
+  color: white;
+  text-shadow: none;
+}
+
+.event-date strong {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
 /* Gallery Styles */
 .gallery {
   display: grid;
