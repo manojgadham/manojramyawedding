@@ -39,7 +39,7 @@ function updateTimer() {
 setInterval(updateTimer, 1000);
 
 // Enhanced image loading with dynamic image discovery and carousel for larger galleries
-function loadImages(eventName) {
+async function loadImages(eventName) {
   const container = document.getElementById(`${eventName}-gallery`);
   
   // Clear existing content
@@ -47,22 +47,14 @@ function loadImages(eventName) {
   
   const eventCaptions = {
     'PreWedding': ['Our love story begins', 'Capturing precious moments', 'Beautiful memories together', 'Romance in the air'],
-    'Engagement': ['She said YES!', 'The beginning of forever'],
-    'Haldi': ['Golden traditions', 'Blessed with turmeric'],
-    'Wedding': ['Our special day', 'Vows of eternal love'],
-    'Reception': ['Celebrating with loved ones', 'Dancing the night away']
+    'Engagement': ['She said YES!', 'The beginning of forever', 'Ring ceremony moments', 'Pure joy and love'],
+    'Haldi': ['Golden traditions', 'Blessed with turmeric', 'Colorful celebrations', 'Sacred rituals'],
+    'Wedding': ['Our special day', 'Vows of eternal love', 'Sacred union', 'Forever begins', 'Wedding bliss'],
+    'Reception': ['Celebrating with loved ones', 'Dancing the night away', 'Party time', 'Joyful celebration']
   };
   
-  // Define the actual images available in each folder
-  const imageFiles = {
-    'PreWedding': ['1C9A5706.JPG', '1C9A5732.JPG', '1C9A5760.JPG', '1C9A5766.JPG'],
-    'Engagement': ['engagement_1.jpg', 'engagement_2.jpg'],
-    'Haldi': ['haldi_1.jpg', 'haldi_2.jpg'],
-    'Wedding': ['wedding_1.jpg', 'wedding_2.jpg'],
-    'Reception': ['reception_1.jpg', 'reception_2.jpg']
-  };
-  
-  const files = imageFiles[eventName] || [];
+  // Try to dynamically discover images from the folder
+  const files = await discoverImages(eventName);
   
   // If there are more than 3 images, create a carousel
   if (files.length > 3) {
@@ -71,6 +63,84 @@ function loadImages(eventName) {
     // Regular grid layout for 3 or fewer images
     createRegularGallery(container, eventName, files, eventCaptions[eventName]);
   }
+}
+
+// Function to dynamically discover images in a folder
+async function discoverImages(eventName) {
+  // Known image files for each event (as fallback)
+  const knownFiles = {
+    'PreWedding': ['1C9A5706.JPG', '1C9A5732.JPG', '1C9A5760.JPG', '1C9A5766.JPG'],
+    'Engagement': ['1C9A4864.JPG', '1C9A5152.JPG'],
+    'Haldi': ['1C9A4994.JPG', '1C9A5014.JPG', '1C9A5739.JPG'],
+    'Wedding': ['1C9A5441.JPG', '1C9A5450.JPG', '1C9A5486.JPG', '1C9A5566.JPG', '1C9A5575.JPG'],
+    'Reception': ['1C9A5315.JPG', '1C9A5405.JPG', '1C9A5434.JPG']
+  };
+  
+  // If we have known files for this event, use them
+  if (knownFiles[eventName]) {
+    console.log(`Using known files for ${eventName}:`, knownFiles[eventName]);
+    return knownFiles[eventName];
+  }
+  
+  // Common image extensions
+  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'JPG', 'JPEG', 'PNG', 'GIF', 'WEBP'];
+  const discoveredImages = [];
+  
+  // Try to load images by testing common naming patterns and extensions
+  const testPatterns = [
+    // Test numbered patterns
+    ...Array.from({length: 20}, (_, i) => `${eventName.toLowerCase()}_${i + 1}`),
+    ...Array.from({length: 20}, (_, i) => `${eventName}_${i + 1}`),
+    ...Array.from({length: 20}, (_, i) => `image_${i + 1}`),
+    ...Array.from({length: 20}, (_, i) => `img_${i + 1}`),
+    ...Array.from({length: 20}, (_, i) => `photo_${i + 1}`),
+    // Test camera-style naming (like your current files)
+    ...Array.from({length: 100}, (_, i) => `1C9A${(5700 + i).toString().padStart(4, '0')}`),
+    // Test simple patterns
+    ...Array.from({length: 10}, (_, i) => `${i + 1}`),
+    ...Array.from({length: 10}, (_, i) => `0${i + 1}`),
+  ];
+  
+  // Test each pattern with each extension
+  for (const pattern of testPatterns) {
+    for (const ext of imageExtensions) {
+      const filename = `${pattern}.${ext}`;
+      
+      try {
+        // Test if image exists by trying to load it
+        const imageExists = await testImageExists(`${eventName}/${filename}`);
+        if (imageExists) {
+          discoveredImages.push(filename);
+        }
+      } catch (error) {
+        // Image doesn't exist, continue
+        continue;
+      }
+    }
+    
+    // Stop if we found enough images (reasonable limit)
+    if (discoveredImages.length >= 20) break;
+  }
+  
+  // Sort the discovered images for consistent ordering
+  discoveredImages.sort();
+  
+  console.log(`Discovered ${discoveredImages.length} images for ${eventName}:`, discoveredImages);
+  
+  return discoveredImages;
+}
+
+// Helper function to test if an image exists
+function testImageExists(src) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    img.src = src;
+    
+    // Timeout after 2 seconds to avoid hanging
+    setTimeout(() => resolve(false), 2000);
+  });
 }
 
 function createCarousel(container, eventName, files, captions) {
@@ -482,13 +552,23 @@ document.addEventListener('visibilitychange', function() {
 });
 
 // Initialize all galleries
-function initializeGalleries() {
+async function initializeGalleries() {
   const events = ['PreWedding', 'Engagement', 'Haldi', 'Wedding', 'Reception'];
-  events.forEach((event, index) => {
-    setTimeout(() => {
-      loadImages(event);
-    }, index * 200); // Stagger loading for smooth effect
+  
+  // Show loading message
+  events.forEach(event => {
+    const container = document.getElementById(`${event}-gallery`);
+    if (container) {
+      container.innerHTML = '<div style="text-align: center; padding: 40px; color: var(--deep-pink); font-size: 1.2rem;"><i class="fas fa-spinner fa-spin"></i> Loading images...</div>';
+    }
   });
+  
+  // Load images for each event with staggered timing
+  for (let i = 0; i < events.length; i++) {
+    setTimeout(async () => {
+      await loadImages(events[i]);
+    }, i * 300); // Stagger loading for smooth effect
+  }
 }
 
 // Navigation functionality
