@@ -180,6 +180,7 @@ body {
 
 .title-line:nth-child(1) {
   animation-delay: 0.2s;
+  white-space: nowrap;
 }
 
 .title-line:nth-child(2) {
@@ -213,22 +214,54 @@ body {
 }
 
 .wedding-date {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   color: white;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 40px;
-  text-shadow: 1px 1px 4px rgba(212, 79, 112, 0.8),
-               -1px -1px 0 var(--primary-pink),
-               1px -1px 0 var(--primary-pink),
-               -1px 1px 0 var(--primary-pink),
-               1px 1px 0 var(--primary-pink);
-  animation: fadeInUp 1s ease-out 1s forwards;
+  text-shadow: 
+    2px 2px 8px rgba(212, 79, 112, 0.8),
+    -1px -1px 0 var(--primary-pink),
+    1px -1px 0 var(--primary-pink),
+    -1px 1px 0 var(--primary-pink),
+    1px 1px 0 var(--primary-pink);
+  animation: 
+    fadeInUp 1s ease-out 1s forwards,
+    dateHighlight 3s ease-in-out 2s infinite;
   opacity: 0;
+  padding: 15px 25px;
+  background: linear-gradient(135deg, rgba(233, 30, 99, 0.2), rgba(255, 215, 0, 0.2));
+  border-radius: 25px;
+  border: 2px solid rgba(255, 215, 0, 0.6);
+  backdrop-filter: blur(10px);
+}
+
+@keyframes dateHighlight {
+  0%, 100% {
+    transform: scale(1);
+    border-color: rgba(255, 215, 0, 0.6);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+  }
+  50% {
+    transform: scale(1.02);
+    border-color: rgba(255, 215, 0, 0.9);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+  }
 }
 
 .wedding-date i {
-  margin-right: 10px;
+  margin-right: 12px;
   color: var(--gold);
+  font-size: 1.2rem;
+  animation: iconBounce 2s ease-in-out infinite;
+}
+
+@keyframes iconBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
 }
 
 .timer-container {
@@ -401,6 +434,271 @@ body {
   font-size: 1.1rem;
   font-weight: 600;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Event Features Styling - Single Tile Layout */
+.event-info {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.event-tile {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(212, 175, 55, 0.3);
+  gap: 20px;
+  width: 100%;
+  max-width: 550px;
+  transition: all 0.3s ease;
+}
+
+.event-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+  border-color: rgba(212, 175, 55, 0.5);
+}
+
+.event-date-section {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #e91e63, #ff6b9d, #ffd700);
+  border-radius: 20px;
+  box-shadow: 
+    0 6px 20px rgba(233, 30, 99, 0.3),
+    0 0 15px rgba(255, 215, 0, 0.2),
+    inset 0 2px 8px rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+  min-width: 160px;
+  position: relative;
+  overflow: hidden;
+  transform: scale(1);
+  animation: dateGlow 3s ease-in-out infinite alternate;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+}
+
+.event-date-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: rotate(45deg);
+  animation: shimmer 2s linear infinite;
+}
+
+@keyframes dateGlow {
+  0% {
+    box-shadow: 
+      0 6px 20px rgba(233, 30, 99, 0.3),
+      0 0 15px rgba(255, 215, 0, 0.2),
+      inset 0 2px 8px rgba(255, 255, 255, 0.3);
+  }
+  100% {
+    box-shadow: 
+      0 8px 25px rgba(233, 30, 99, 0.4),
+      0 0 20px rgba(255, 215, 0, 0.3),
+      inset 0 2px 12px rgba(255, 255, 255, 0.4);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+.event-date-section i {
+  margin-right: 8px;
+  color: white;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  font-size: 1.1rem;
+  animation: iconPulse 2s ease-in-out infinite;
+  z-index: 2;
+  position: relative;
+}
+
+@keyframes iconPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.event-date-section strong {
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+  z-index: 2;
+  position: relative;
+  text-transform: uppercase;
+}
+
+.event-venue-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.event-venue-section i {
+  color: var(--gold);
+  font-size: 1.2rem;
+  min-width: 20px;
+  flex-shrink: 0;
+}
+
+.location-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.venue-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--deep-pink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.venue-address {
+  font-size: 0.9rem;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.directions-btn {
+  background: var(--gradient-gold);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(212, 175, 55, 0.3);
+  flex-shrink: 0;
+}
+
+.directions-btn:hover {
+  background: linear-gradient(135deg, #218838, #1abc9c);
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+}
+
+.live-stream {
+  width: 100%;
+  max-width: 300px;
+}
+
+.live-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 25px;
+  background: linear-gradient(135deg, #dc3545, #e74c3c);
+  color: white;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.live-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.live-btn:hover::before {
+  left: 100%;
+}
+
+.live-btn:hover {
+  background: linear-gradient(135deg, #c82333, #dc3545);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
+}
+
+.live-btn i {
+  font-size: 1.1rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Keep existing video button styles */
+.video-btn {
+  background: linear-gradient(135deg, #ff6b9d, #ff8fa3);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  margin: 5px;
+}
+
+.video-btn i {
+  margin-right: 8px;
+  font-size: 1.1rem;
+}
+
+.video-btn:hover {
+  background: linear-gradient(135deg, #ff4d7a, #ff6b8f);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 107, 157, 0.4);
 }
 
 /* Gallery Styles */
@@ -1031,7 +1329,12 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
   .main-title {
-    font-size: 3rem;
+    font-size: clamp(2.5rem, 6vw, 3rem);
+  }
+  
+  .title-line:nth-child(1) {
+    white-space: nowrap;
+    font-size: clamp(2.5rem, 6vw, 3rem);
   }
   
   .nav-item {
@@ -1065,6 +1368,60 @@ body {
     padding: 10px;
   }
   
+  /* Event Info Mobile Styles */
+  .event-info {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+  
+  .event-tile {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    max-width: 100%;
+  }
+  
+  .event-date-section {
+    min-width: auto;
+    width: 100%;
+    justify-content: center;
+    transform: scale(1);
+    padding: 12px 18px;
+  }
+  
+  .event-date-section i {
+    font-size: 1.1rem;
+  }
+  
+  .event-date-section strong {
+    font-size: 1rem;
+  }
+  
+  .event-venue-section {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  .venue-name, .venue-address {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: initial;
+  }
+  
+  .location-details {
+    text-align: left;
+  }
+  
+  .directions-btn {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .live-btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+  
   /* Carousel Mobile Styles */
   .carousel-slide {
     flex: 0 0 calc(50% - 8px);
@@ -1090,6 +1447,33 @@ body {
 }
 
 @media (max-width: 480px) {
+  .main-title {
+    font-size: clamp(2rem, 5vw, 2.5rem);
+  }
+  
+  .title-line:nth-child(1) {
+    white-space: nowrap;
+    font-size: clamp(2rem, 5vw, 2.5rem);
+  }
+  
+  .event-date-section {
+    padding: 12px 18px;
+    transform: scale(1);
+  }
+  
+  .event-date-section i {
+    font-size: 1.1rem;
+  }
+  
+  .event-date-section strong {
+    font-size: 1rem;
+  }
+  
+  .wedding-date {
+    font-size: 1.3rem;
+    padding: 12px 20px;
+  }
+  
   .carousel-slide {
     flex: 0 0 calc(100% - 5px);
   }
