@@ -707,7 +707,7 @@ function initializeAnimations() {
     });
   }, 500);
 }
-
+ 
 // Add parallax effect to hero roses
 window.addEventListener('scroll', function() {
   const scrolled = window.pageYOffset;
