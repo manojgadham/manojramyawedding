@@ -926,8 +926,67 @@ body {
   border: 2px solid white;
 }
 
-.carousel-slide img:hover {
+/* Force uniform heights for all image types with smart positioning */
+.carousel-slide img.portrait-img {
+  height: 280px !important;
+  transform: scale(1);
+  object-position: center 20%;
+  max-height: 280px !important;
+}
+
+.carousel-slide img.landscape-img {
+  height: 280px !important;
   transform: scale(1.02);
+  object-position: center center;
+  max-height: 280px !important;
+}
+
+.carousel-slide img.square-img {
+  height: 280px !important;
+  transform: scale(1);
+  object-position: center center;
+  max-height: 280px !important;
+}
+
+/* Hover effects with uniform scaling */
+.carousel-slide img.portrait-img:hover {
+  transform: scale(1.02);
+}
+
+.carousel-slide img.landscape-img:hover {
+  transform: scale(1.05);
+}
+
+.carousel-slide img.square-img:hover {
+  transform: scale(1.02);
+}
+
+/* Regular gallery with uniform heights */
+.gallery:not(.carousel-gallery) img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+}
+
+.gallery:not(.carousel-gallery) img.portrait-img {
+  height: 280px;
+  transform: scale(1);
+  object-position: center 30%;
+}
+
+.gallery:not(.carousel-gallery) img.landscape-img {
+  height: 280px;
+  transform: scale(1.02);
+  object-position: center center;
+}
+
+.gallery:not(.carousel-gallery) img.square-img {
+  height: 280px;
+  transform: scale(1);
+  object-position: center center;
+}
+
+.carousel-slide img:hover {
   box-shadow: var(--shadow-hover);
   border-color: var(--primary-pink);
 }
@@ -1427,6 +1486,27 @@ body {
     flex: 0 0 calc(50% - 8px);
   }
   
+  /* Mobile: uniform heights for all image types */
+  .carousel-slide img {
+    height: 240px;
+  }
+  
+  .carousel-slide img.portrait-img {
+    height: 240px;
+    transform: scale(1);
+    object-position: center 30%;
+  }
+  
+  .carousel-slide img.landscape-img {
+    height: 240px;
+    transform: scale(1.05);
+  }
+  
+  .carousel-slide img.square-img {
+    height: 240px;
+    transform: scale(1.02);
+  }
+  
   .carousel-track {
     gap: 10px;
   }
@@ -1476,6 +1556,27 @@ body {
   
   .carousel-slide {
     flex: 0 0 calc(100% - 5px);
+  }
+  
+  /* Smallest mobile: uniform heights for all image types */
+  .carousel-slide img {
+    height: 250px;
+  }
+  
+  .carousel-slide img.portrait-img {
+    height: 250px;
+    transform: scale(1);
+    object-position: center 30%;
+  }
+  
+  .carousel-slide img.landscape-img {
+    height: 250px;
+    transform: scale(1.08);
+  }
+  
+  .carousel-slide img.square-img {
+    height: 250px;
+    transform: scale(1.05);
   }
   
   .carousel-track {
