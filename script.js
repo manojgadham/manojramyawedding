@@ -1,6 +1,6 @@
 
 // Wedding date configuration
-const weddingDate = new Date("2025-08-13T00:00:00").getTime();
+const weddingDate = new Date("2025-08-13T10:55:00").getTime();
 
 // Initialize everything when page loads
 window.onload = function () {
@@ -47,7 +47,13 @@ async function loadImages(eventName) {
   
   const eventCaptions = {
     'PreWedding': ['Our love story begins', 'Capturing precious moments', 'Beautiful memories together', 'Romance in the air'],
-    'Engagement': ['She said YES!', 'The beginning of forever', 'Ring ceremony moments', 'Pure joy and love'],
+    'Engagement': [
+      'She said YES!', 'The beginning of forever', 'Ring ceremony moments', 'Pure joy and love',
+      'Blessed by family', 'Traditional ceremonies', 'Happy tears', 'Celebrating together',
+      'Sacred rituals', 'Engagement bliss', 'Promise of forever', 'Beautiful traditions',
+      'Family blessings', 'Precious moments', 'Golden memories', 'Love and laughter',
+      'Forever starts here'
+    ],
     'Haldi': ['Golden traditions', 'Blessed with turmeric', 'Colorful celebrations', 'Sacred rituals'],
     'Wedding': ['Our special day', 'Vows of eternal love', 'Sacred union', 'Forever begins', 'Wedding bliss'],
     'Reception': ['Celebrating with loved ones', 'Dancing the night away', 'Party time', 'Joyful celebration']
@@ -70,7 +76,13 @@ async function discoverImages(eventName) {
   // Known image files for each event (as fallback)
   const knownFiles = {
     'PreWedding': ['1C9A5706.JPG', '1C9A5732.JPG', '1C9A5760.JPG', '1C9A5766.JPG'],
-    'Engagement': ['1C9A4864.JPG', '1C9A5152.JPG'],
+    'Engagement': [
+      '1C9A5702.JPG', '1C9A5708.JPG', '1C9A5749.JPG', '1C9A5802.JPG', 
+      '1C9A5810.JPG', '1C9A5816.JPG', '1C9A5820.JPG', '1C9A5835.JPG', 
+      '1C9A5848.JPG', '1C9A5929.JPG', '1C9A5941.JPG', '1C9A5977.JPG', 
+      '1C9A5987.JPG', '1C9A6005.JPG', '1C9A6033.JPG', '1C9A6129.JPG', 
+      '1C9A6397.JPG'
+    ],
     'Haldi': ['1C9A4994.JPG', '1C9A5014.JPG', '1C9A5739.JPG'],
     'Wedding': ['1C9A5441.JPG', '1C9A5450.JPG', '1C9A5486.JPG', '1C9A5566.JPG', '1C9A5575.JPG'],
     'Reception': ['1C9A5315.JPG', '1C9A5405.JPG', '1C9A5434.JPG']
@@ -297,6 +309,34 @@ function createSlide(eventName, filename, index, captions, isDuplicate = false) 
     });
   }
   
+  // Add load event to detect aspect ratio and apply smart positioning
+  img.onload = function() {
+    const aspectRatio = this.naturalWidth / this.naturalHeight;
+    
+    // Remove any existing orientation classes
+    img.classList.remove('landscape-img', 'portrait-img', 'square-img');
+    
+    // Force a consistent height of 280px for all images regardless of orientation
+    img.style.height = '280px';
+    
+    if (aspectRatio > 1.4) {
+      // Wide landscape - zoom in and center horizontally
+      img.classList.add('landscape-img');
+      img.style.objectPosition = 'center center';
+      img.style.transform = 'scale(1.02)';
+    } else if (aspectRatio < 0.7) {
+      // Tall portrait - force same height and focus on faces
+      img.classList.add('portrait-img');
+      img.style.objectPosition = 'center 20%'; // Move focus higher to show faces better
+      img.style.transform = 'scale(1)'; // No scaling to maintain height
+    } else {
+      // Square-ish - center crop
+      img.classList.add('square-img');
+      img.style.objectPosition = 'center center';
+      img.style.transform = 'scale(1)';
+    }
+  };
+  
   // Add error handling
   img.onerror = function() {
     slide.style.display = 'none';
@@ -329,10 +369,35 @@ function createRegularGallery(container, eventName, files, captions) {
       console.log(`Image not found: ${this.src}`);
     };
     
-    // Add load event for animation
+    // Add load event for animation and smart positioning
     img.onload = function() {
       this.style.opacity = '1';
-      this.style.transform = 'scale(1)';
+      
+      // Detect aspect ratio and apply smart positioning
+      const aspectRatio = this.naturalWidth / this.naturalHeight;
+      
+      // Remove any existing orientation classes
+      this.classList.remove('landscape-img', 'portrait-img', 'square-img');
+      
+      // Force consistent height for all images
+      this.style.height = '280px';
+      
+      if (aspectRatio > 1.4) {
+        // Wide landscape - zoom in and center
+        this.classList.add('landscape-img');
+        this.style.objectPosition = 'center center';
+        this.style.transform = 'scale(1.02)';
+      } else if (aspectRatio < 0.7) {
+        // Tall portrait - focus on upper center for faces
+        this.classList.add('portrait-img');
+        this.style.objectPosition = 'center 20%'; // Higher focus to show faces better
+        this.style.transform = 'scale(1)'; // No scaling to keep height consistent
+      } else {
+        // Square-ish - center crop
+        this.classList.add('square-img');
+        this.style.objectPosition = 'center center';
+        this.style.transform = 'scale(1)';
+      }
     };
     
     // Initial state for animation
@@ -707,7 +772,7 @@ function initializeAnimations() {
     });
   }, 500);
 }
- 
+
 // Add parallax effect to hero roses
 window.addEventListener('scroll', function() {
   const scrolled = window.pageYOffset;
@@ -742,7 +807,7 @@ function createFloatingHeart() {
   }, 8000);
 }
 
-// Enhanced timer styling
+// Enhanced timer styling and image height fixes
 const style = document.createElement('style');
 style.textContent = `
   .time-unit {
@@ -769,11 +834,30 @@ style.textContent = `
     opacity: 0.9;
   }
   
+  /* Critical fix for portrait images */
+  .carousel-slide img.portrait-img {
+    height: 280px !important;
+    max-height: 280px !important;
+  }
+  
+  /* Responsive fixes for portrait images */
   @media (max-width: 768px) {
     .time-unit {
       margin: 5px;
       padding: 8px 12px;
       font-size: 0.9em;
+    }
+    
+    .carousel-slide img.portrait-img {
+      height: 240px !important;
+      max-height: 240px !important;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .carousel-slide img.portrait-img {
+      height: 250px !important;
+      max-height: 250px !important;
     }
   }
 `;
